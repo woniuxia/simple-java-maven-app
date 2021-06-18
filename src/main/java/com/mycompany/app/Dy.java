@@ -24,12 +24,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Dy {
-    private static String cookie = "acf_did=55ee239c2df3e06113b70c1700061601; dy_did=55ee239c2df3e06113b70c1700061601; PHPSESSID=5217rv28ndeo094eukta4pk4b3; acf_uid=44867800; acf_username=44867800; acf_nickname=%E8%9C%97%E7%89%9B%E4%BE%A0c; acf_own_room=1; acf_groupid=1; acf_phonestatus=1; acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar_v3%2F201905%2F4f13ab195c434490a0c0d82daa2270ae_; acf_ct=0; acf_ltkid=90915290; acf_biz=1; acf_auth=edcc22yzZ9Zyezd2eC3DgfFVUTOVE4DN%2FJUhNHNZdLUr4elBTtlESxH3A1pB%2Bq3ka%2Fz8yrDDLT%2FU5pdKMSBC0L1sM%2BYjNDORrzcUxgRpKfl%2F5B3Mlm%2F7; dy_auth=30574dJdMnXIQyrXdWAvc5wLw4tGYjnNK97DY2otQmoHbv2SCqGrR%2BZFoYRI%2BYRwnefes3UNQOUuqhdRy0nnkQk6NFBpqqEZhjhRwLFpL6%2FoJvKzKO%2Bf; wan_auth37wan=a46c3d2990012QVkd4d1Y3K18w3hBSK1QJUQIPAMBMYw0jrpE7ArlHBWa%2FEckcTkZxcJua%2BG5ftqUE%2FccURQ%2BWc06ABdqg7i0uhLreFXtHPglp2J2w; acf_stk=8123085ad781bca8; Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1612099684,1612174338,1612325071,1612762766; acf_ccn=0d3f10acf0203c27ec60564ca62b0364; Hm_lvt_4dc4fb0549a56fe03ba53c022b1ff455=1612768316; Hm_lpvt_4dc4fb0549a56fe03ba53c022b1ff455=1612768316; Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1612768321";
+    private static String cookie = "dy_did=e694c2fb9a876c14d5af8ea200061601; acf_did=e694c2fb9a876c14d5af8ea200061601; loginrefer=pt_e06b1cgm5ll7; Hm_lvt_e99aee90ec1b2106afe7ec3b199020a7=1623569502,1623636144,1623727764,1623841278; Hm_lvt_4dc4fb0549a56fe03ba53c022b1ff455=1623569501,1623636144,1623729200,1623841820; PHPSESSID=avc6vu0kene6ctt6eva94p3ha6; _dys_lastPageCode=page_studio_normal,page_studio_normal; acf_auth=f6f8hXgK%2FdIXv%2FEf9PD5jffkdpOiCJnG2DAW%2BvSyV1mGbt3EN7OfdkBLpfJtPuKFl6YZjS2oCEEaKAxIU%2B9U5vZhADsAkASlb5rZB9bQE58i%2BsKMJPw2; dy_auth=d8dazFJMf4sbfnll%2B%2F3HhYscEwGd2Xmpi5f3ACisA6fJlEv1rcpgxnC2ixVUAgOgoLnzCDXVjdHUCVIYx30Oo%2BqFOpHVqgRP9QJvOebnYDuogwuQFB4f; wan_auth37wan=b2e86df52be02Efunn678L2TfOnlxncsOSlerS5UmFNTJRtEhbyTMTfbbvXAtTcau%2FFOx86aQTcmzEC5r2McUEIFrMw17M9pLTzQm1A2PJFIZA3ixg; acf_uid=44867800; acf_username=44867800; acf_nickname=%E8%9C%97%E7%89%9B%E4%BE%A0c; acf_own_room=1; acf_groupid=1; acf_phonestatus=1; acf_avatar=https%3A%2F%2Fapic.douyucdn.cn%2Fupload%2Favatar_v3%2F201905%2F4f13ab195c434490a0c0d82daa2270ae_; acf_ct=0; acf_ltkid=90915315; acf_biz=1; acf_stk=871d8e3a631f433f; acf_ccn=b90a05cd2df31fdea87d2d4780aa5ddd; Hm_lpvt_4dc4fb0549a56fe03ba53c022b1ff455=1623934835; Hm_lpvt_e99aee90ec1b2106afe7ec3b199020a7=1623934835";
     private static HttpClient httpClient = HttpClient.newBuilder().build();
     private static String token = "";
     private static List<String> tokenArray = ImmutableList.of("acf_uid", "acf_biz", "acf_stk", "acf_ct", "acf_ltkid");
     private static int roomId = 8544405;
-    private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+    private static long waitTime = 2000L;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -41,6 +42,7 @@ public class Dy {
         while (true) {
             Set<Integer> followList = getFollowList();
             if (followList.contains(roomId)) {
+                Thread.sleep(60_000L);
                 checkin(roomId);
                 Thread.sleep(100L);
                 checkin(roomId);
@@ -48,9 +50,9 @@ public class Dy {
                 break;
             }
             Date day = new Date();
-            System.out.println(df.format(day));
-            System.out.println("未开播等待500ms");
-            Thread.sleep(5000L);
+            System.out.println(df.format(day) + " 未开播等待" + waitTime + "ms");
+            System.out.println("==================================================");
+            Thread.sleep(waitTime);
         }
     }
 
@@ -92,9 +94,11 @@ public class Dy {
     public static Set<Integer> getFollowList() throws IOException, InterruptedException {
         String url = "https://www.douyu.com/wgapi/livenc/liveweb/follow/list?sort=0&cid1=0";
         String response = getResponse(url);
-        if(response.equals("") || response == null) {
+        if (response.equals("") || response == null) {
             return new HashSet<>();
         }
+
+        // System.out.println(response);
 
         JsonParser jsonParser = new JsonParser();
         JsonElement element = jsonParser.parse(response);
@@ -149,25 +153,21 @@ public class Dy {
             return "";
         }
         System.out.println("url: " + url + " code:" + response.statusCode());
-        //System.out.println("response: " + response.body());
+        // System.out.println("response: " + response.body());
         return response.body();
     }
 
     public static String postResponse(String url, String value) throws IOException, InterruptedException {
         URI uri = URI.create(url);
 
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("content-Type", "application/x-www-form-urlencoded")
-                .header("cookie", cookie)
-                .header("token", token)
-                .POST(HttpRequest.BodyPublishers.ofString(value))
-                .build();
+        HttpRequest httpRequest = HttpRequest.newBuilder().uri(uri)
+                .header("content-Type", "application/x-www-form-urlencoded").header("cookie", cookie)
+                .header("token", token).POST(HttpRequest.BodyPublishers.ofString(value)).build();
 
         HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         System.out.println("url: " + url + " code:" + response.statusCode());
-        //System.out.println("body: " + value);
-        //System.out.println("response: " + response.body());
+        // System.out.println("body: " + value);
+        // System.out.println("response: " + response.body());
         return response.body();
     }
 }
